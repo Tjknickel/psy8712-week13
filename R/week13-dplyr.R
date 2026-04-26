@@ -30,8 +30,29 @@ week13_tbl <- employees_tbl %>%
 
 write.csv(week13_tbl, "../out/week13.csv")
 
-# Visualization 
-
 # Analysis 
+week13_tbl %>% 
+  filter(manager_hire == "Y") %>% 
+  summarise(total_managers = n())
 
-# Publication
+week13_tbl %>% 
+  filter(manager_hire == "Y") %>% 
+  summarise(unique_managers = n_distinct(employee_id))
+
+week13_tbl %>% 
+  filter(manager_hire == "Y") %>% 
+  group_by(city) %>% 
+  summarise(manager_count = n())
+
+week13_tbl %>% 
+  mutate(performance_group = factor(performance_group, levels = c("Bottom", "Middle", "Top"))) %>% 
+  group_by(performance_group) %>% 
+  summarise(
+    mean_years = mean(yrs_employed, na.rm = TRUE),
+    sd_years = sd(yrs_employed, na.rm = TRUE)
+  )
+
+week13_tbl %>% 
+  filter(manager_hire == "Y") %>% 
+  select(office_type, employee_id, test_score) %>% 
+  arrange(office_type, desc(test_score))
